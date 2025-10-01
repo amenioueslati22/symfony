@@ -1,0 +1,30 @@
+<h1>Liste des Auteurs</h1>
+
+{% if authors is not defined or authors is empty %}
+    Il n'y a plus d'auteurs.
+{% else %}
+    <p>Nombre d'auteurs : {{ authors|length }}</p>
+    <p>Nombre total de livres : {{ authors|map(a => a.nb_books)|reduce((carry, nb) => carry + nb) }}</p>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Photo</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Nombre de livres</th>
+            <th>Détails</th>
+        </tr>
+        {% for author in authors %}
+            <tr>
+                <td>
+                    <img src="{{ asset(author.picture) }}" alt="{{ author.username }}" width="100">
+                </td>
+                <td>{{ author.username|upper }}</td>
+                <td>{{ author.email }}</td>
+                <td>{{ author.nb_books }}</td>
+                <td>
+                    <a href="{{ path('author_details', {'id': author.id}) }}">Détails</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
