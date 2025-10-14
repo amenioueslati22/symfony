@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Author Details</title>
+</head>
+<body>
+    <h1>Author Details</h1>
+
+    <div>
+        <p><strong>ID:</strong> {{ author.id }}</p>
+        <p><strong>Username:</strong> {{ author.username }}</p>
+        <p><strong>Email:</strong> {{ author.email }}</p>
+        <p><strong>Age:</strong> {{ author.age }}</p>
+    </div>
+
+    <br>
+    <div>
+        <a href="{{ path('show_all_authors') }}"> Back to Authors List</a> 
+       
+    </div>
+</body>
+</html>

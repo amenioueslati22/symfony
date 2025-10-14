@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block body %}
+    <h1>Edit Book</h1>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.ref) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.publicationDate) }}
+        {{ form_row(form.author) }}
+        {{ form_row(form.description) }}
+
+        <button type="submit">Update Book</button>
+        <a href="{{ path('app_book_list') }}">Back to List</a>
+
+    {{ form_end(form) }}
+{% endblock %}

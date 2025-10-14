@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Details{% endblock %}
+
+{% block body %}
+    <h1>Book Details</h1>
+
+    <ul>
+        <li><strong>Reference:</strong> {{ book.ref }}</li>
+        <li><strong>Title:</strong> {{ book.title }}</li>
+        <li><strong>Category:</strong> {{ book.category }}</li>
+        <li><strong>Publication Date:</strong> {{ book.publicationDate ? book.publicationDate|date('Y-m-d') : 'N/A' }}</li>
+        <li><strong>Author:</strong> {{ book.author ? book.author.username : 'N/A' }}</li>
+        <li><strong>Description:</strong> {{ book.description }}</li>
+        <li><strong>Published:</strong> {{ book.published ? 'Yes' : 'No' }}</li>
+    </ul>
+
+    <a href="{{ path('app_book_list') }}">Back to List</a>
+    <a href="{{ path('app_book_edit', {'id': book.id}) }}">Edit</a>
+    <a href="{{ path('app_book_delete', {'id': book.id}) }}" onclick="return confirm('Are you sure you want to delete this book?');">Delete</a>
+{% endblock %}

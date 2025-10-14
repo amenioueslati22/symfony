@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Author</title>
+</head>
+<body>
+    <h1>Edit Author: {{ author.username }}</h1>
+
+    {{ form_start(formulaire) }}
+        <div>
+            {{ form_label(formulaire.username, 'Username:') }}
+            {{ form_widget(formulaire.username) }}
+            {{ form_errors(formulaire.username) }}
+        </div>
+        <br>
+        
+        <div>
+            {{ form_label(formulaire.email, 'Email:') }}
+            {{ form_widget(formulaire.email) }}
+            {{ form_errors(formulaire.email) }}
+        </div>
+        <br>
+        
+        <div>
+            {{ form_label(formulaire.age, 'Age:') }}
+            {{ form_widget(formulaire.age) }}
+            {{ form_errors(formulaire.age) }}
+        </div>
+        <br>
+        
+        <div>
+            {{ form_widget(formulaire.Update) }}
+        </div>
+    {{ form_end(formulaire) }}
+
+    <br>
+    <a href="{{ path('show_all_authors') }}">Back to Authors List</a>
+</body>
+</html>

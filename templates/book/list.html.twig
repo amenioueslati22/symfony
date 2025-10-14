@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books List{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Books List</h1>
+
+    {# Affichage des statistiques #}
+   
+
+    {# Bouton d'ajout #}
+    <div class="mb-3">
+        <a href="{{ path('app_book_add') }}" class="btn btn-primary">Add New Book</a>
+    </div>
+
+    {# Liste des livres #}
+    {% if books|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Reference</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Publication Date</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{ book.ref }}</td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.category }}</td>
+                            <td>{{ book.publicationDate|date('Y-m-d') }}</td>
+                            <td>{{ book.author.username }}</td>
+                            <td>
+                                <a href="{{ path('app_book_show', {'id': book.id}) }}" class="btn btn-sm btn-info">View</a>
+                                <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ path('app_book_delete', {'id': book.id}) }}" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this book?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <h4>No Books found</h4>
+            <p>There are no published books to display.</p>
+            <a href="{{ path('app_book_add') }}" class="btn btn-primary">Add the first book</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
