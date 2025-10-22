@@ -16,6 +16,30 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
+    /**
+     * @return Author[] Returns an array of Author objects ordered by email
+     */
+    public function listAuthorByEmail(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.email', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find authors with more than 10 books
+     */
+    public function findAuthorsWithMoreThan10Books(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.nb_books > :minBooks')
+            ->setParameter('minBooks', 10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    
     //    /**
     //     * @return Author[] Returns an array of Author objects
     //     */
@@ -40,4 +64,7 @@ class AuthorRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+   
+ 
+
 }

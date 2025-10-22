@@ -44,23 +44,65 @@ class BookController extends AbstractController
     }
 
     #[Route('/book/list', name: 'app_book_list')]
-    public function listBooks(BookRepository $bookRepository): Response
+    public function listBooks(BookRepository $bookRepository, Request $request): Response
     {
-        $publishedBooks = $bookRepository->findPublishedBooks();
+        $searchRef = $request->query->get('search_ref');
+        $books = [];
+
+        if ($searchRef) {
+            $book = $bookRepository->searchBookByRef($searchRef);
+            if ($book) {
+                $books = [$book];
+            }
+        } else {
+            $books = $bookRepository->findPublishedBooks();
+        }
+
         $unpublishedBooks = $bookRepository->createQueryBuilder('b')
             ->andWhere('b.published = :published')
             ->setParameter('published', false)
             ->getQuery()
             ->getResult();
 
-        $totalPublished = count($publishedBooks);
+        $totalPublished = count($books);
         $totalUnpublished = count($unpublishedBooks);
 
         return $this->render('book/list.html.twig', [
-            'books' => $publishedBooks,
+            'books' => $books,
             'total_published' => $totalPublished,
             'total_unpublished' => $totalUnpublished,
+            'search_ref' => $searchRef,
         ]);
+    }
+
+    #[Route('/books/by-authors', name: 'app_books_by_authors')]
+    public function booksByAuthors(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->booksListByAuthors();
+
+        return $this->render('book/books_by_authors.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
+    #[Route('/books/productive-authors', name: 'app_books_productive_authors')]
+    public function booksWithProductiveAuthors(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->findBooksBefore2023WithProductiveAuthors();
+
+        return $this->render('book/productive_authors.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
+    #[Route('/books/update-categories', name: 'app_books_update_categories')]
+    public function updateCategories(BookRepository $bookRepository): Response
+    {
+        $updatedCount = $bookRepository->updateScienceFictionToRomance();
+        
+        $this->addFlash('success', sprintf('Successfully updated %d books from Science-Fiction to Romance category.', $updatedCount));
+        
+        return $this->redirectToRoute('app_book_list');
     }
 
     #[Route('/book/edit/{id}', name: 'app_book_edit')]

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authors by Email{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Authors List (Ordered by Email)</h1>
+
+    {% if authors|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Number of Books</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for author in authors %}
+                        <tr>
+                            <td>{{ author.username }}</td>
+                            <td>{{ author.email }}</td>
+                            <td>{{ author.nbBooks }}</td>
+                            <td>
+                                <a href="{{ path('show_author_details', {'id': author.id}) }}" class="btn btn-sm btn-info">View Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <h4>No Authors Found</h4>
+            <p>There are no authors to display.</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ path('show_all_authors') }}" class="btn btn-secondary">Back to All Authors</a>
+</div>
+{% endblock %}

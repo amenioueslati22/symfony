@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books Published Before 2023 - Productive Authors{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Books Published Before 2023 (Authors with 10+ Books)</h1>
+
+    {% if books|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>PublicationDate</th>
+                        <th>Published</th>
+                        <th>Category</th>
+                        <th>Author</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.publicationDate|date('F d, Y') }}</td>
+                            <td>{{ book.published ? '1' : '0' }}</td>
+                            <td>{{ book.category }}</td>
+                            <td>{{ book.author.username }}</td>
+                            <td>
+                                <a href="{{ path('app_book_show', {'id': book.id}) }}" class="btn btn-sm btn-info">show</a>
+                                <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="btn btn-sm btn-warning">edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <h4>No Books Found</h4>
+            <p>No books found matching the criteria (published before 2023 by authors with more than 10 books).</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ path('app_book_list') }}" class="btn btn-secondary">Back to All Books</a>
+</div>
+{% endblock %}
