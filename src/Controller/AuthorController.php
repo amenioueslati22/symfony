@@ -11,6 +11,7 @@ use App\Entity\Author;
 use App\Form\AuthorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Service\HappyQuote;
 
 class AuthorController extends AbstractController
 {
@@ -113,11 +114,16 @@ class AuthorController extends AbstractController
     }
     
     #[Route('/showAllAuthors', name: 'show_all_authors')]
-    public function ShowAllAuthors(AuthorRepository $repo): Response
-    {
-        $authors = $repo->findAll();
-        return $this->render('author/listAuthor.html.twig', ['list' => $authors]);
-    }
+public function ShowAllAuthors(AuthorRepository $repo, HappyQuote $quote): Response
+{
+    $bestAuthorMessage = $quote->getHappyMessage();
+    $authors = $repo->findAll();
+    
+    return $this->render('author/listAuthor.html.twig', [
+        'list' => $authors, 
+        'theBest' => $bestAuthorMessage 
+    ]);
+}
 
     #[Route('/authors/by-email', name: 'app_authors_by_email')]
     public function listAuthorsByEmail(AuthorRepository $repo): Response

@@ -2,9 +2,13 @@
 <html>
 <head>
     <title>Authors List</title>
+    
 </head>
 <body>
     <h1>Authors List</h1>
+
+    
+   
 
     <a href="{{ path('add_author_form') }}">Add New Author</a>
 
@@ -40,7 +44,12 @@
     </table>
 
     {% for message in app.flashes('success') %}
-        <div>{{ message }}</div>
+        <div style="color: green; margin: 10px 0;">{{ message }}</div>
     {% endfor %}
+   
+        <h3>Best quote of the day </h3>
+        <p>"{{ theBest }}"</p>
+      
+
 </body>
 </html>
